@@ -87,7 +87,7 @@ This highlights a key difference between conda and pip. Pip installs Python pack
 
 
 **Anaconda:**
-
+*This part I have made on colab notebook*
 [1] Install conda, create a new virtual environment, and install all necessary packages.
 [0.75] You won't be able to install some tools - that's fine. List their names, and explain what should be done to make them conda-friendly (conda-forge channel, bioconda channel).
 [0.25] Export the environment (example) to the file and verify that it can be rebuilt from the file without problems.
@@ -190,59 +190,75 @@ dependencies:
 prefix: /usr/local
 </code></pre>
 ** Docker**
-*Installing the Docker*
+*Installing the Docker - made it on UBUNTU Virtual machine locally, collab doesn't work*
 <code><pre>
 
-!sudo apt-get install \
+sudo apt-get install \
     ca-certificates \
     curl \
     gnupg \
     lsb-release
     
     
-!sudo mkdir -p /etc/apt/keyrings
+sudo mkdir -p /etc/apt/keyrings
 
-!curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
- 
-!echo \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   
-!sudo apt-get update
+sudo apt-get update
   
-!sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 </code></pre>
 
 *Create a Dockerfile*
-Write text file "Dockerfile"
+Write text file "Dockerfile" 
+mkdir Docker #create special directory
+nano Dockerfile
+
 <code><pre>
+
 FROM ubuntu:latest
 MAINTAINER "masha.ampleeva@gmail.com"
-# apt-transport-https & wget
+#apt-transport-https & wget
 RUN apt update && \
     apt -y install apt-transport-https wget
-# Unzip
+
+#unzip
 RUN apt install unzip
-# Java
+
+#java- openjdk
 RUN apt -y install openjdk-11-jdk xvfb
-# Perl
+
+#perl
 RUN apt -y install perl
-# Create /.bashrc for aliases
-# Execute ". /.bashrc" command right after the container is run
+
+#create /.bashrc for aliases
+#execute ". /.bashrc" command right after the container is run
 RUN touch /.bashrc
-# FastQC v0.11.9
-RUN wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip && \
-    unzip fastqc_v0.11.9.zip && \
-    rm fastqc_v0.11.9.zip && \
-    chmod a+x /FastQC/fastqc && \
-    echo 'alias fastqc="/FastQC/fastqc"' >> /.bashrc # && \
-# STAR v2.7.10b
+
+#STAR v2.7.10b
 RUN wget https://github.com/alexdobin/STAR/releases/download/2.7.10b/STAR_2.7.10b.zip && \
     unzip ./STAR_2.7.10b.zip && \
     rm ./STAR_2.7.10b.zip && \
     chmod a+x ./STAR_2.7.10b/Linux_x86_64_static/STAR ?? \
     mv ./STAR_2.7.10b/Linux_x86_64_static/STAR /bin/STAR && \
     rm -r ./STAR_2.7.10b
+    
+#FastQC v0.11.9
+RUN wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip && \
+    unzip fastqc_v0.11.9.zip && \
+    rm fastqc_v0.11.9.zip && \
+    chmod a+x /FastQC/fastqc && \
+    echo 'alias fastqc="/FastQC/fastqc"' >> /.bashrc # && \
+    
+# picard v2.27.5
+RUN wget https://github.com/broadinstitute/picard/releases/download/2.27.5/picard.jar -O /bin/picard.jar && \
+    chmod a+x /bin/picard.jar && \
+    echo 'alias picard="java -jar /bin/picard.jar"' >> /.bashrc
+    
 # samtools v1.16.1
 RUN wget https://github.com/samtools/samtools/archive/refs/tags/1.16.1.zip -O ./samtools-1.16.1.zip && \
     unzip ./samtools-1.16.1.zip && \
@@ -250,19 +266,20 @@ RUN wget https://github.com/samtools/samtools/archive/refs/tags/1.16.1.zip -O ./
     mv ./samtools-1.16.1/misc /samtools && \
     rm -r ./samtools-1.16.1 && \
     echo 'alias samtools="/samtools/samtools.pl"' >> /.bashrc
-# picard v2.27.5
-RUN wget https://github.com/broadinstitute/picard/releases/download/2.27.5/picard.jar -O /bin/picard.jar && \
-    chmod a+x /bin/picard.jar && \
-    echo 'alias picard="java -jar /bin/picard.jar"' >> /.bashrc
+    
+
 # bedrools v2.30.0
 RUN wget https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools.static.binary -O /bin/bedtools.static.binary && \
     chmod a+x /bin/bedtools.static.binary && \
     echo 'alias bedtools="/bin/bedtools.static.binary"' >> /.bashrc
-# Python 3 with pip
+    
+#python
 RUN apt -y install python3-pip
+
 # MultiQC v1.13
 RUN pip install multiqc==1.13
-# salmon v1.9.0 with libgomp1 and libtbb12 needed for its functioning
+
+#salmon v1.9.0 plus libgomp1 and libtbb12 
 RUN wget https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1.9.0_linux_x86_64.tar.gz && \
     tar -zxvf ./salmon-1.9.0_linux_x86_64.tar.gz && \
     rm salmon-1.9.0_linux_x86_64.tar.gz && \
@@ -270,7 +287,9 @@ RUN wget https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1
     mv ./salmon-1.9.0_linux_x86_64/bin/salmon /bin/salmon && \
     rm -r ./salmon-1.9.0_linux_x86_64 && \
     apt install libgomp1 libtbb12
+RUN find . -maxdepth 1 -type f -perm +a=x -print0 | xargs -0 -I {} mv {} /usr/local/bin/
 </code></pre>
+
 *Create Dockerimage using Dockerfile*
 
 <code><pre>!sudo docker build -t dependencies .   </code></pre>
