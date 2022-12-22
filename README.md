@@ -83,7 +83,7 @@ Conda is a cross platform package and environment manager that installs and mana
 
 This highlights a key difference between conda and pip. Pip installs Python packages whereas conda installs packages which may contain software written in any language. 
 
-
+Conda may be used *locally* insted of apt and yarn
 
 
 **Anaconda:**
