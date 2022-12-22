@@ -1,3 +1,6 @@
+
+# 1 - Dependencies management
+
 **[0.5] What is Docker, and how it differs from dependencies management systems? From virtual machines?**
 
 Docker is a software development tool and a virtualization technology that makes it easy to develop, deploy, and manage applications by using containers. A container refers to a lightweight, stand-alone, executable package of a piece of software that contains all the libraries, configuration files, dependencies, and other necessary parts to operate the application. Docker provides the ability to package and run an application in a loosely isolated environment called a container. 
