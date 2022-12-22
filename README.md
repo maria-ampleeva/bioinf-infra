@@ -243,7 +243,7 @@ RUN touch /.bashrc
 RUN wget https://github.com/alexdobin/STAR/releases/download/2.7.10b/STAR_2.7.10b.zip && \
     unzip ./STAR_2.7.10b.zip && \
     rm ./STAR_2.7.10b.zip && \
-    chmod a+x ./STAR_2.7.10b/Linux_x86_64_static/STAR ?? \
+    chmod a+x ./STAR_2.7.10b/Linux_x86_64_static/STAR && \
     mv ./STAR_2.7.10b/Linux_x86_64_static/STAR /bin/STAR && \
     rm -r ./STAR_2.7.10b
     
