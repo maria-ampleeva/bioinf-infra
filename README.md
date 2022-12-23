@@ -11,7 +11,7 @@ A port on high level is a virtual point where network connections start and end.
 
 Not all of the ports are equally common, port numbers lower than 1024 identify the historically most commonly used services and are called the well-known port numbers. Higher-numbered ports are available for general use by applications and are known as ephemeral ports.
 
-A Computer Port is also an interface or a point of connection between the computer and its peripheral devices. Some of the common peripherals are mouse, keyboard, monitor or display unit, printer, speaker, flash drive etc.
+A Computer Port (on low level) is also an interface or a point of connection between the computer and its peripheral devices. Some of the common peripherals are mouse, keyboard, monitor or display unit, printer, speaker, flash drive etc.
 The main function of a computer port is to act as a point of attachment, where the cable from the peripheral can be plugged in and allows data to flow from and to the device.
 The ports are the physical docking points present in the computer through which the external devices are connected using cables. Or in other words, a port is an interface between the motherboard and an external device of the computer. There are different types of ports available:
 
