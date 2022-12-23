@@ -189,10 +189,11 @@ wget -O BRF2.bigBed "https://www.encodeproject.org/files/ENCFF987NRP/@@download/
 wget -O ATAC.bigBed "https://www.encodeproject.org/files/ENCFF204FWC/@@download/ENCFF204FWC.bigBed"
 </code></pre>
 
-Unzip
+Install bedtools and ucsc-bigbedtobed
 
 <code><pre>
-gunzip *.bed.gz</code></pre>
+sudo apt install bedtools
+conda install -c bioconda ucsc-bigbedtobed</code></pre>
 
 Sort, bgzip, and index them using tabix.
 
