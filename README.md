@@ -7,9 +7,9 @@ git branch name: jbrowser
 
 ### [0.4] What are computer ports on a high level? How many ports are there on a typical computer?**
 
-A port on high level is a virtual point where network connections start and end. Ports are software-based and managed by a computer's operating system. Each port is associated with a specific process or service. 
+A port on high level is a virtual point where network connections start and end. Ports are software-based and managed by a computer's operating system. Each port is associated with a specific process or service.  At the software level, within an operating system, a port is a logical construct that identifies a specific process or a type of network service. A port is identified for each transport protocol and address combination by a 16-bit unsigned number, known as the port number. The most common transport protocols that use port numbers are the Transmission Control Protocol (TCP) and the User Datagram Protocol (UDP). The port identifiers are unsigned 16-bit integers, meaning that the largest number you can put in there is 216-1 = 65535.
 
-The port identifiers are unsigned 16-bit integers, meaning that the largest number you can put in there is 216-1 = 65535. So there are 65,535 ports available for communication between devices.
+Not all of the ports are equally common, port numbers lower than 1024 identify the historically most commonly used services and are called the well-known port numbers. Higher-numbered ports are available for general use by applications and are known as ephemeral ports.
 
 A Computer Port is also an interface or a point of connection between the computer and its peripheral devices. Some of the common peripherals are mouse, keyboard, monitor or display unit, printer, speaker, flash drive etc.
 The main function of a computer port is to act as a point of attachment, where the cable from the peripheral can be plugged in and allows data to flow from and to the device.
