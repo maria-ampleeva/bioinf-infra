@@ -119,7 +119,54 @@ Please consider doing this HW using Linux since setting up the SSH client on Win
 Remote Server:
 
 [2] Create a new virtual machine in the Yandex/Mail/etc cloud (order at least 10GB of free disk space). Generate SSH key pair and use it to connect to your server.
+
+Firstly I created virtual machine in the Yandex cloud :
+
+Name marusya
+
+Platform Intel Ice Lake
+
+Garanted part of vCPU 20%
+
+vCPU 2
+
+RAM 4 GB
+
+Disk SSD 30 GB
+
+
+Generate SSH key pair and use it to connect to your server.
+
+<code><pre>
+ssh-keygen
+</code></pre>
+
+When the VM generated - add SSH key and login "avatar"
+
+Connected to VM
+
+<code><pre>
+ssh avatar@51.250.12.193 #public IP, then type yes
+</code></pre>
+
 [1] Download the latest human genome assembly (GRCh38) from the Ensemble FTP server (fasta, GFF3). Index the fasta using samtools (samtools faidx) and GFF3 using tabix.
+
+download human genome and unzip
+<code><pre>wget https://ftp.ensembl.org/pub/release-108/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+wget https://ftp.ensembl.org/pub/release-108/gff3/homo_sapiens/Homo_sapiens.GRCh38.108.gff3.gz
+gunzip *
+</code></pre>
+
+**samtools and tabix installation
+
+<code><pre>
+sudo apt-get install -y samtools
+sudo apt-get install -y tabix
+</code></pre>
+Indexing human genome 
+<code><pre>
+samtools faidx Homo_sapiens.GRCh38.dna.primary_assembly.fa
+</code></pre>
 [1] Select and download BED files for three ChIP-seq and one ATAC-seq experiment from the ENCODE (use one tissue/cell line). Sort, bgzip, and index them using tabix.
 JBrowse 2
 
