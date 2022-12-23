@@ -97,9 +97,9 @@ The Secure Shell Protocol (SSH) is a cryptographic network protocol for operatin
 
 SSH uses public-key cryptography to authenticate the remote computer and allow it to authenticate the user, if necessary
 
-SSH applications are based on a client–server architecture, connecting an SSH client instance with an SSH server.[2] SSH operates as a layered protocol suite comprising three principal hierarchical components: the transport layer provides server authentication, confidentiality, and integrity; the user authentication protocol validates the user to the server; and the connection protocol multiplexes the encrypted tunnel into multiple logical communication channels.
+SSH applications are based on a client–server architecture, connecting an SSH client instance with an SSH server.SSH operates as a layered protocol suite comprising three principal hierarchical components: the transport layer provides server authentication, confidentiality, and integrity; the user authentication protocol validates the user to the server; and the connection protocol multiplexes the encrypted tunnel into multiple logical communication channels.
 
-SSH is typically used to log into a remote machine and execute commands, but it also supports tunneling, forwarding TCP ports and X11 connections; it can transfer files using the associated SSH file transfer (SFTP) or secure copy (SCP) protocols.[2] SSH uses the client–server model.
+SSH is typically used to log into a remote machine and execute commands, but it also supports tunneling, forwarding TCP ports and X11 connections; it can transfer files using the associated SSH file transfer (SFTP) or secure copy (SCP) protocols.SSH uses the client–server model.
 
 Two ways to authenticate in an SSH server:
 
