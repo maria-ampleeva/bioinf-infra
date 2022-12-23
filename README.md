@@ -157,23 +157,76 @@ wget https://ftp.ensembl.org/pub/release-108/gff3/homo_sapiens/Homo_sapiens.GRCh
 gunzip *
 </code></pre>
 
-**samtools and tabix installation
+**samtools and tabix installation**
 
 <code><pre>
 sudo apt-get install -y samtools
 sudo apt-get install -y tabix
 </code></pre>
-Indexing human genome 
-<code><pre>
-samtools faidx Homo_sapiens.GRCh38.dna.primary_assembly.fa
+
+**Indexing human genome**
+
+<code><pre>samtools faidx Homo_sapiens.GRCh38.dna.primary_assembly.fa
 </code></pre>
+
+**GFF3 file  indexing with tabix**
+
+<code><pre>
+in_gff=Homo_sapiens.GRCh38.108.gff3
+(grep "^#" $in_gff; grep -v "^#" $in_gff | sort -t"`printf '\t'`" -k1,1 -k4,4n) | bgzip > sorted.$in_gff.gz;
+tabix -p gff sorted.$in_gff.gz
+</code></pre>
+
 [1] Select and download BED files for three ChIP-seq and one ATAC-seq experiment from the ENCODE (use one tissue/cell line). Sort, bgzip, and index them using tabix.
 JBrowse 2
 
+##  Download data from ENCODE, I selected HepG2 cell line:  ATACseq and transcription factors CBX2,TMF1,BRF2 
+
+<code><pre>
+wget -O CBX2.bigBed "https://www.encodeproject.org/files/ENCFF216GIL/@@download/ENCFF216GIL.bigBed"
+wget -O TMF1.bigBed "https://www.encodeproject.org/files/ENCFF605HHR/@@download/ENCFF605HHR.bigBed"
+wget -O BRF2.bigBed "https://www.encodeproject.org/files/ENCFF987NRP/@@download/ENCFF987NRP.bigBed"
+wget -O ATAC.bigBed "https://www.encodeproject.org/files/ENCFF204FWC/@@download/ENCFF204FWC.bigBed"
+</code></pre>
+
+Unzip
+
+<code><pre>
+gunzip *.bed.gz</code></pre>
+
+Sort, bgzip, and index them using tabix.
+
+<code><pre>
+for i in ATAC CBX2 TMF1 BRF2
+do
+    (grep "^#" $i.bed; grep -v "^#" $i.bed | sort -t"`printf '\t'`" -k1,1 -k4,4n) | bgzip > sorted.$i.bed.gz;
+    tabix -p bed sorted.$i.bed.gz;
+done
+</code></pre>
+
 [1] Download and install JBrowse 2. Create a new jbrowse repository in /mnt/JBrowse/ (or some other folder).
 
-[0.25] Install nginx and amend its config(/etc/nginx/nginx.conf) to contain the following section:
+**Install Conda**
 
+<code><pre>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh</code></pre>
+
+**Install JBrowse 2**
+<code><pre>
+miniconda3/bin/conda install -c bioconda jbrowse2</code></pre>
+
+**Create a jbrowse repository**
+<code><pre>sudo /home/avatar/miniconda3/bin/jbrowse create /var/www/html/jbrowse/ </code></pre>
+
+[0.25] Install nginx and amend its config(/etc/nginx/nginx.conf) to contain the following section:
+<code><pre>sudo apt-get install -y nginx 
+sudo nano /etc/nginx/nginx.conf</code></pre>
+Edit some options
+<code><pre>
+server {
+    listen 80;
+    index index.html;
+}
 http {
 # Don't touch other options!
 # ........
