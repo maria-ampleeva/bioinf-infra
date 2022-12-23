@@ -122,7 +122,7 @@ Remote Server:
 
 Firstly I created virtual machine in the Yandex cloud :
 
-Name marusya
+Name marusya (IP 51.250.12.193)
 
 Platform Intel Ice Lake
 
@@ -133,6 +133,10 @@ vCPU 2
 RAM 4 GB
 
 Disk SSD 30 GB
+
+It was not totally successfull and I created another one(with JBrowse not in home directory, but it did't help)
+Name pandora (51.250.67.161)
+23.12.2022, в 13:42	
 
 
 Generate SSH key pair and use it to connect to your server.
@@ -187,7 +191,7 @@ wget -O CBX2.bed.gz "https://www.encodeproject.org/files/ENCFF241LPZ/@@download/
 wget -O TMF1.bed.gz "https://www.encodeproject.org/files/ENCFF366KEF/@@download/ENCFF366KEF.bed.gz"
 wget -O BRF2.bed.gz "https://www.encodeproject.org/files/ENCFF647CDO/@@download/ENCFF647CDO.bed.gz"
 wget -O ATAC.bed.gz "https://www.encodeproject.org/files/ENCFF913MQB/@@download/ENCFF913MQB.bed.gz"
-unzip *.bed.gz
+gunzip *.bed.gz
 </code></pre>
 
 Install bedtools 
@@ -196,15 +200,26 @@ Install bedtools
 sudo apt install bedtools
 </code></pre>
 
-Sort, bgzip, and index them using tabix.
+Sort, bgzip, and index them using tabix
+.
+**BED files  indexing with tabix**
+
 
 <code><pre>
-for i in ATAC CBX2 TMF1 BRF2
-do
-    (grep "^#" $i.bed; grep -v "^#" $i.bed | sort -t"`printf '\t'`" -k1,1 -k4,4n) | bgzip > sorted.$i.bed.gz;
-    tabix -p bed sorted.$i.bed.gz;
-done
+in_gff=CBX2.bed
+(grep "^#" $in_gff; grep -v "^#" $in_gff | sort -t"`printf '\t'`" -k1,1 -k4,4n) | bgzip > sorted.$in_gff.gz;
+tabix -p gff sorted.$in_gff.gz
+in_gff=TMF1.bed
+(grep "^#" $in_gff; grep -v "^#" $in_gff | sort -t"`printf '\t'`" -k1,1 -k4,4n) | bgzip > sorted.$in_gff.gz;
+tabix -p gff sorted.$in_gff.gz
+in_gff=BRF2.bed
+(grep "^#" $in_gff; grep -v "^#" $in_gff | sort -t"`printf '\t'`" -k1,1 -k4,4n) | bgzip > sorted.$in_gff.gz;
+tabix -p gff sorted.$in_gff.gz
+in_gff=ATAC.bed
+(grep "^#" $in_gff; grep -v "^#" $in_gff | sort -t"`printf '\t'`" -k1,1 -k4,4n) | bgzip > sorted.$in_gff.gz;
+tabix -p gff sorted.$in_gff.gz
 </code></pre>
+
 
 [1] Download and install JBrowse 2. Create a new jbrowse repository in /mnt/JBrowse/ (or some other folder).
 
@@ -213,48 +228,46 @@ done
 <code><pre>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh</code></pre>
 
+*on second machine - install on /mnt/conda/
 **Install JBrowse 2**
 <code><pre>
-miniconda3/bin/conda install -c bioconda jbrowse2</code></pre>
+sudo miniconda3/bin/conda install -c bioconda jbrowse2</code></pre>
 
 **Create a jbrowse repository**
-<code><pre>sudo /home/avatar/miniconda3/bin/jbrowse create /var/www/html/jbrowse/ </code></pre>
+never succeed
 
 [0.25] Install nginx and amend its config(/etc/nginx/nginx.conf) to contain the following section:
 <code><pre>sudo apt-get install -y nginx 
 sudo nano /etc/nginx/nginx.conf</code></pre>
 Edit some options
 <code><pre>
-server {
-    listen 80;
-    index index.html;
+'
+'http {
+'# Don't touch other options!
+'# ........
+'# ........
+'
+'# Comment this line(!):
+'# include /etc/nginx/sites-enabled/*;
+'
+'# Add this:
+'server {
+'  listen 80 default_server;
+'  index index.html;
+'  server_name _;
+'
+'  # Don't put JBrowse inside the home directory!
+'  # You will have problems with permissions
+'  location /jbrowse/ {
+'    alias /mnt/JBrowse/;    
+'  }
 }
-http {
-# Don't touch other options!
-# ........
-# ........
+}'
+[0.25] Restart the nginx (reload its config) and make sure that you can access the browser using a link like this: http://64.129.58.13/jbrowse/. Here 64.129.58.13 is your public IP address. - NOT achieved
 
-# Comment this line(!):
-# include /etc/nginx/sites-enabled/*;
+[1] Add your files (BED & FASTA & GFF3) to the genome browser and verify that everything works as intended. Don't forget to index the genome annotation, so you could later search by gene names. - never done
 
-# Add this:
-server {
-  listen 80 default_server;
-  index index.html;
-  server_name _;
-
-  # Don't put JBrowse inside the home directory!
-  # You will have problems with permissions
-  location /jbrowse/ {
-    alias /mnt/JBrowse/;    
-  }
-}
-}
-[0.25] Restart the nginx (reload its config) and make sure that you can access the browser using a link like this: http://64.129.58.13/jbrowse/. Here 64.129.58.13 is your public IP address.
-
-[1] Add your files (BED & FASTA & GFF3) to the genome browser and verify that everything works as intended. Don't forget to index the genome annotation, so you could later search by gene names.
-
-Remember to put a persistent link to a JBrowse 2 session with all your BED files and the genome annotation in the report (like this). I must be able to access it without problems.
+Remember to put a persistent link to a JBrowse 2 session with all your BED files and the genome annotation in the report (like this). I must be able to access it without problems. - I have problems with  JBrowse 2 session and can't give the access
 
 Extra points [1.5]
 [1] Create a Docker container for running JBrowse 2. It should be a self-contained application, listening on the default HTTP port. Users must be able to mount directories with custom configs and access them later without any problems.
