@@ -149,7 +149,7 @@ in environment.yml :
 <code><pre>
 name: base
 channels:
-  - conda-forge
+'  - conda-forge
   - bioconda
   - defaults
 dependencies:
@@ -159,7 +159,7 @@ dependencies:
   - star=2.7.10b
   - bedtools=2.30.0
   - salmon=1.9.0
-  - multiqc=1.13
+  - multiqc=1.13'
 prefix: /usr/local
 </code></pre>
 
@@ -230,7 +230,7 @@ RUN apt update && \
 RUN apt install unzip
 
 #java- openjdk
-RUN apt -y install openjdk-11-jdk xvfb
+RUN apt -y install openjdk-11-jdk 
 
 #perl
 RUN apt -y install perl
@@ -244,7 +244,7 @@ RUN wget https://github.com/alexdobin/STAR/releases/download/2.7.10b/STAR_2.7.10
     unzip ./STAR_2.7.10b.zip && \
     rm ./STAR_2.7.10b.zip && \
     chmod a+x ./STAR_2.7.10b/Linux_x86_64_static/STAR && \
-    mv ./STAR_2.7.10b/Linux_x86_64_static/STAR /bin/STAR && \
+    mv ./STAR_2.7.10b/Linux_x86_64_static/STAR /usr/local/bin/STAR && \
     rm -r ./STAR_2.7.10b
     
 #FastQC v0.11.9
@@ -252,12 +252,13 @@ RUN wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.
     unzip fastqc_v0.11.9.zip && \
     rm fastqc_v0.11.9.zip && \
     chmod a+x /FastQC/fastqc && \
+    mv  /FastQC/fastqc /usr/local/bin/fastqc && \
     echo 'alias fastqc="/FastQC/fastqc"' >> /.bashrc # && \
     
 # picard v2.27.5
-RUN wget https://github.com/broadinstitute/picard/releases/download/2.27.5/picard.jar -O /bin/picard.jar && \
-    chmod a+x /bin/picard.jar && \
-    echo 'alias picard="java -jar /bin/picard.jar"' >> /.bashrc
+RUN wget https://github.com/broadinstitute/picard/releases/download/2.27.5/picard.jar -O /usr/local/bin/picard.jar && \
+    chmod a+x /usr/local/bin/picard.jar && \
+    echo 'alias picard="java -jar /usr/local/bin/picard.jar"' >> /.bashrc
     
 # samtools v1.16.1
 RUN wget https://github.com/samtools/samtools/archive/refs/tags/1.16.1.zip -O ./samtools-1.16.1.zip && \
@@ -265,13 +266,14 @@ RUN wget https://github.com/samtools/samtools/archive/refs/tags/1.16.1.zip -O ./
     rm ./samtools-1.16.1.zip && \
     mv ./samtools-1.16.1/misc /samtools && \
     rm -r ./samtools-1.16.1 && \
-    echo 'alias samtools="/samtools/samtools.pl"' >> /.bashrc
+    mv  /samtools/samtools.pl /usr/local/bin/samtools.pl && \
+    echo 'alias samtools="/usr/local/bin/samtools.pl"' >> /.bashrc
     
 
 # bedrools v2.30.0
-RUN wget https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools.static.binary -O /bin/bedtools.static.binary && \
-    chmod a+x /bin/bedtools.static.binary && \
-    echo 'alias bedtools="/bin/bedtools.static.binary"' >> /.bashrc
+RUN wget https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools.static.binary -O /usr/local/bin/bedtools.static.binary && \
+    chmod a+x /usr/local/bin/bedtools.static.binary && \
+    echo 'alias bedtools="/usr/local/bin/bedtools.static.binary"' >> /.bashrc
     
 #python
 RUN apt -y install python3-pip
@@ -284,10 +286,10 @@ RUN wget https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1
     tar -zxvf ./salmon-1.9.0_linux_x86_64.tar.gz && \
     rm salmon-1.9.0_linux_x86_64.tar.gz && \
     chmod a+x ./salmon-1.9.0_linux_x86_64/bin/salmon && \
-    mv ./salmon-1.9.0_linux_x86_64/bin/salmon /bin/salmon && \
+    mv ./salmon-1.9.0_linux_x86_64/bin/salmon /usr/local/bin/salmon && \
     rm -r ./salmon-1.9.0_linux_x86_64 && \
     apt install libgomp1 libtbb12
-RUN find . -maxdepth 1 -type f -perm +a=x -print0 | xargs -0 -I {} mv {} /usr/local/bin/
+
 </code></pre>
 
 *Create Dockerimage using Dockerfile*
