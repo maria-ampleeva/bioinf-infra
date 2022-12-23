@@ -294,12 +294,13 @@ RUN wget https://github.com/COMBINE-lab/salmon/releases/download/v1.9.0/salmon-1
 
 *Create Dockerimage using Dockerfile*
 
-<code><pre>!sudo docker build -t dependencies .   </code></pre>
+<code><pre>sudo docker build -t superimage .   </code></pre>
 
-*RUN  Docker container*
+*RUN  Docker container in sudo mode*
 
-<code><pre>sudo docker run -it dependencies bash</code></pre>
+<code><pre>sudo docker run --rm -it superimage:latest </code></pre>
 
-*Dockerfile*
-
+Exit to escape container
+ 
+I tried to make $PATH, but it worked not for all tools 
 
