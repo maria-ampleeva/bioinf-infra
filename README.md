@@ -28,6 +28,8 @@ The ports are the physical docking points present in the computer through which 
 * Digital Video Interface(DVI) Port
 * Ethernet Port
 
+Usually every dot of connection may have its port (some identificator to manipulate with) + computer usually part of the network - so some private IP. I think its minimal number of ports, but it may be more. 
+
 
 ### [0.4] What is the difference between http, https, ssh, and other protocols? In what sense are they similar? Name default ports for several data transfer protocols.
 
