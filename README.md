@@ -58,7 +58,7 @@ Port 53 for DNS
 
 ### [0.4] Explain briefly: (1) what is IP, (2) what IPs are called 'white'/public, (3) and what happens when you enter 'google.com' into the web browser.
 
-(1)IP stands for "Internet Protocol," which is the set of rules governing the format of data sent via the internet or local network. 
+(1)IP stands for "Internet Protocol," which is the set of rules governing the format of data sent via the internet or local network. There are four types of IP addresses: public, private, static, and dynamic .An IP address serves two main functions: network interface identification and location addressing. Internet Protocol version 4 (IPv4) defines an IP address as a 32-bit number.However, because of the growth of the Internet and the depletion of available IPv4 addresses, a new version of IP (IPv6), using 128 bits for the IP address, was standardized in 1998. IPv6 deployment has been ongoing since the mid-2000s.
 
 (2)A public IP address is an IP address that can be accessed directly over the internet and is assigned to your network router by your internet service provider (ISP). 
 
