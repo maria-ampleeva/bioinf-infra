@@ -181,19 +181,20 @@ tabix -p gff sorted.$in_gff.gz
 JBrowse 2
 
 ##  Download data from ENCODE, I selected HepG2 cell line:  ATACseq and transcription factors CBX2,TMF1,BRF2 
-
+https://www.encodeproject.org/files/ENCFF241LPZ/
 <code><pre>
-wget -O CBX2.bigBed "https://www.encodeproject.org/files/ENCFF216GIL/@@download/ENCFF216GIL.bigBed"
-wget -O TMF1.bigBed "https://www.encodeproject.org/files/ENCFF605HHR/@@download/ENCFF605HHR.bigBed"
-wget -O BRF2.bigBed "https://www.encodeproject.org/files/ENCFF987NRP/@@download/ENCFF987NRP.bigBed"
-wget -O ATAC.bigBed "https://www.encodeproject.org/files/ENCFF204FWC/@@download/ENCFF204FWC.bigBed"
+wget -O CBX2.bed.gz "https://www.encodeproject.org/files/ENCFF241LPZ/@@download/ENCFF241LPZ.bed.gz"
+wget -O TMF1.bed.gz "https://www.encodeproject.org/files/ENCFF366KEF/@@download/ENCFF366KEF.bed.gz"
+wget -O BRF2.bed.gz "https://www.encodeproject.org/files/ENCFF647CDO/@@download/ENCFF647CDO.bed.gz"
+wget -O ATAC.bed.gz "https://www.encodeproject.org/files/ENCFF913MQB/@@download/ENCFF913MQB.bed.gz"
+unzip *.bed.gz
 </code></pre>
 
-Install bedtools and ucsc-bigbedtobed
+Install bedtools 
 
 <code><pre>
 sudo apt install bedtools
-conda install -c bioconda ucsc-bigbedtobed</code></pre>
+</code></pre>
 
 Sort, bgzip, and index them using tabix.
 
