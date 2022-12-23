@@ -231,7 +231,7 @@ bash Miniconda3-latest-Linux-x86_64.sh</code></pre>
 *on second machine - install on /mnt/conda/
 **Install JBrowse 2**
 <code><pre>
-sudo miniconda3/bin/conda install -c bioconda jbrowse2</code></pre>
+sudo /mnt/conda/bin/conda install -c bioconda jbrowse2</code></pre>
 
 **Create a jbrowse repository**
 never succeed
